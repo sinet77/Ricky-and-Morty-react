@@ -14,7 +14,12 @@ function App() {
   const [allCharacters, setAllCharacters] = useState([]);
 
   useEffect(() => {
-    const url = `https://rickandmortyapi.com/api/character/?page=${currentPage}`;
+    fetchPage(currentPage);
+    fetchData();
+  }, [currentPage]);
+
+  const fetchPage = (page) => {
+    const url = `https://rickandmortyapi.com/api/character/?page=${page}`;
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
@@ -22,30 +27,26 @@ function App() {
         setNextPage(json.info.next);
         setPrevPage(json.info.prev);
       });
-  }, [currentPage]);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  };
 
   const fetchData = () => {
     let allResults = [];
 
-    const fetchPage = (page) => {
+    const fetchAllPages = (page) => {
       const url = `https://rickandmortyapi.com/api/character/?page=${page}`;
       fetch(url)
         .then((response) => response.json())
         .then((json) => {
           allResults = [...allResults, ...json.results];
           if (json.info.next) {
-            fetchPage(page + 1);
+            fetchAllPages(page + 1);
           } else {
             setAllCharacters(allResults);
           }
         });
     };
 
-    fetchPage(currentPage);
+    fetchAllPages(1);
   };
 
   const goToNextPage = () => {
