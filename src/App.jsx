@@ -2,7 +2,6 @@ import "./App.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import CreateCharacters from "./components/CreateCharacters/CreateCharacters";
-// import { CreateCharacters } from "./components/CreateCharacters/CreateCharacters.jsx";
 
 function App() {
   const [data, setData] = useState({ results: [] });
