@@ -14,39 +14,37 @@ function App() {
   const [allCharacters, setAllCharacters] = useState([]);
 
   useEffect(() => {
-    fetchPage(currentPage);
-    fetchData();
+    fetchData(currentPage, false);
   }, [currentPage]);
 
-  const fetchPage = (page) => {
-    const url = `https://rickandmortyapi.com/api/character/?page=${page}`;
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        setData(json);
-        setNextPage(json.info.next);
-        setPrevPage(json.info.prev);
-      });
-  };
+  useEffect(() => {
+    fetchData(1, true);
+  }, []);
 
-  const fetchData = () => {
+  const fetchData = (page, doYouWantAllCharacters) => {
     let allResults = [];
 
-    const fetchAllPages = (page) => {
+    const fetchPage = (page) => {
       const url = `https://rickandmortyapi.com/api/character/?page=${page}`;
       fetch(url)
         .then((response) => response.json())
         .then((json) => {
-          allResults = [...allResults, ...json.results];
-          if (json.info.next) {
-            fetchAllPages(page + 1);
+          if (doYouWantAllCharacters) {
+            allResults = [...allResults, ...json.results];
+            if (json.info.next) {
+              fetchPage(page + 1);
+            } else {
+              setAllCharacters(allResults);
+            }
           } else {
-            setAllCharacters(allResults);
+            setData(json);
+            setNextPage(json.info.next);
+            setPrevPage(json.info.prev);
           }
         });
     };
 
-    fetchAllPages(1);
+    fetchPage(page);
   };
 
   const goToNextPage = () => {
