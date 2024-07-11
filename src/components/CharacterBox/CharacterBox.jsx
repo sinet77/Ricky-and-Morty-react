@@ -18,7 +18,10 @@ const CharacterBox = () => {
       const episodeData = data.episode.map((episodeUrl) =>
         fetch(episodeUrl).then((response) => response.json())
       );
-      console.log(episodeData);
+
+      const resolvePromisesForEpisodes = await Promise.all(episodeData);
+      setEpisodes(resolvePromisesForEpisodes);
+      console.log(resolvePromisesForEpisodes);
     };
 
     fetchCharacter();
@@ -27,7 +30,7 @@ const CharacterBox = () => {
   if (!character) return <div>Loading...</div>;
 
   return (
-    <div className="character-click">
+    <div className="character-details">
       <div className="click-main">
         <div className="first-column">
           <img
@@ -41,15 +44,18 @@ const CharacterBox = () => {
           <div className="character-name">{character.name}</div>
           <div className="character-info">
             <div className="description-name">
-              <strong>Gender: {character.gender}</strong>
+              <strong>Gender: </strong>
+              {character.gender}
               <span id="gender"></span>
             </div>
             <div className="description-name">
-              <strong>Location: {character.location.name}</strong>
+              <strong>Location: </strong>
+              {character.location.name}
               <span id="locationName"></span>
             </div>
             <div className="description-name">
-              <strong>Status: {character.status}</strong>
+              <strong>Status: </strong>
+              {character.status}
               <span id="status"></span>
             </div>
             <div className="description-name">

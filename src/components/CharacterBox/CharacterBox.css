@@ -20,6 +20,7 @@
 
 .character-details {
   display: flex;
+
   flex-direction: column;
   padding: 20px 50px;
 }
@@ -58,4 +59,20 @@
   font-weight: bold;
   font-size: 22px;
   margin-bottom: 45px;
+}
+
+@media (max-width: 1000px) {
+  .character-name {
+    margin-top: 20px;
+  }
+  .first-column {
+    margin-top: -65px;
+  }
+  .second-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+  }
 }
