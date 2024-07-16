@@ -1,59 +1,45 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import CreateCharacters from "./components/CreateCharacters/CreateCharacters";
+import styles from "./App.module.css";
 
 function App() {
-  const [data, setData] = useState({ results: [] });
-  const [currentPage, setCurrentPage] = useState(1);
-  const [nextPage, setNextPage] = useState("");
-  const [prevPage, setPrevPage] = useState("");
+  const [[start, end], setRange] = useState([0, 20]);
   const [inputValue, setInputValue] = useState("");
-
   const [allCharacters, setAllCharacters] = useState([]);
 
   useEffect(() => {
-    fetchData(currentPage, false);
-  }, [currentPage]);
-
-  useEffect(() => {
-    fetchData(1, true);
+    fetchAllData(1);
   }, []);
 
-  const fetchData = (page, doYouWantAllCharacters) => {
+  const fetchAllData = async (page) => {
     let allResults = [];
 
-    const fetchPage = (page) => {
+    const getData = async (page) => {
       const url = `https://rickandmortyapi.com/api/character/?page=${page}`;
-      fetch(url)
-        .then((response) => response.json())
-        .then((json) => {
-          if (doYouWantAllCharacters) {
-            allResults = [...allResults, ...json.results];
-            if (json.info.next) {
-              fetchPage(page + 1);
-            } else {
-              setAllCharacters(allResults);
-            }
-          } else {
-            setData(json);
-            setNextPage(json.info.next);
-            setPrevPage(json.info.prev);
-          }
-        });
+      const response = await fetch(url);
+      const data = await response.json();
+      allResults = [...allResults, ...data.results];
+
+      if (data.info.next) {
+        await getData(page + 1);
+      }
     };
 
-    fetchPage(page);
+    await getData(page);
+
+    setAllCharacters(allResults);
   };
 
   const goToNextPage = () => {
-    if (nextPage !== null) {
-      setCurrentPage(currentPage + 1);
+    if (end < allCharacters.length) {
+      setRange([start + 20, end + 20]);
     }
   };
 
   const goToPrevPage = () => {
-    if (prevPage !== null) {
-      setCurrentPage(currentPage - 1);
+    if (start > 0) {
+      setRange([start - 20, end - 20]);
     }
   };
   const characterInput = (e) => {
@@ -62,35 +48,49 @@ function App() {
   const filteredResultsOfCharacters = allCharacters.filter((character) =>
     character.name.toLowerCase().startsWith(inputValue.toLowerCase())
   );
+
   return (
     <>
-      <div className="background">
-        <div className="headline">
-          <h1 className="head-title">Ricky and Morty Search</h1>
+      <div className={styles.background}>
+        <div className={styles.headline}>
+          <h1 className={styles.headTitle}>Ricky and Morty Search</h1>
         </div>
-        <div className="app">
-          <div className="subline">
+        <div className={styles.app}>
+          <div className={styles.subline}>
             <input
               type="text"
-              className="character-bar"
+              className={styles.characterBar}
               placeholder="Search for a character..."
               value={inputValue}
               onChange={characterInput}
             />
-            <div className="bothButtons">
-              <button className="prev-page" onClick={goToPrevPage}>
+            <div className={styles.bothButtons}>
+              <button
+                className={styles.prevPage}
+                onClick={goToPrevPage}
+                disabled={start === 0}
+              >
                 Previous page
               </button>
-              <button className="next-page" onClick={goToNextPage}>
+              <button
+                className={styles.nextPage}
+                onClick={goToNextPage}
+                disabled={end >= allCharacters.length}
+              >
                 Next page
               </button>
             </div>
           </div>
-          <div className="main">
+          <div className={styles.main}>
             {inputValue === ""
-              ? data.results.map((character) => (
-                  <CreateCharacters key={character.id} character={character} />
-                ))
+              ? allCharacters
+                  .slice(start, end)
+                  .map((character) => (
+                    <CreateCharacters
+                      key={character.id}
+                      character={character}
+                    />
+                  ))
               : filteredResultsOfCharacters.map((character) => (
                   <CreateCharacters key={character.id} character={character} />
                 ))}

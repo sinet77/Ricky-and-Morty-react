@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./CreateCharacters.css";
+import styles from "./CreateCharacters.module.css";
 
 const CreateCharacters = ({ character }) => {
   const navigate = useNavigate();
@@ -8,12 +8,16 @@ const CreateCharacters = ({ character }) => {
     navigate(`/character/${character.id}`);
   };
   return (
-    <div className="character-box" onClick={handleClick}>
-      <img className="image" alt="Image of a character" src={character.image} />
-      <div className="description">
-        <div className="character-name">{character.name}</div>
-        <div className="together">
-          <div className="population">{character.species}</div>
+    <div className={styles["character-box"]} onClick={handleClick}>
+      <img
+        className={styles.image}
+        alt="Image of a character"
+        src={character.image}
+      />
+      <div className={styles.description}>
+        <div className={styles.characterName}>{character.name}</div>
+        <div className={styles.together}>
+          <div className={styles.population}>{character.species}</div>
         </div>
       </div>
     </div>

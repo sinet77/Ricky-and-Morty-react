@@ -4,71 +4,51 @@
   box-sizing: border-box;
 }
 
-.back-button {
+.characterDetails {
   display: flex;
-  padding: 12px 25px;
-  width: 110px;
-  word-spacing: 10px;
-  font-weight: bold;
-  background-color: hsl(0, 0%, 100%);
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border: none;
-  border-radius: 5px;
-  color: hsl(200, 15%, 8%);
-  cursor: pointer;
-}
-
-.character-details {
-  display: flex;
-
   flex-direction: column;
   padding: 20px 50px;
 }
 
-.click-main {
+.clickMain {
   align-items: center;
   margin-top: 100px;
   display: flex;
   justify-content: center;
 }
 
-.first-column {
+.firstColumn {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.second-column {
+.secondColumn {
   flex: 1;
   line-height: 35px;
   margin-right: 100px;
 }
 
-.character-info {
+.characterInfo {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
-.character-name {
-  font-weight: bold;
-  font-size: 22px;
-  margin-bottom: 15px;
-}
 
-.character-name {
+.characterName {
   font-weight: bold;
   font-size: 22px;
   margin-bottom: 45px;
 }
 
 @media (max-width: 1000px) {
-  .character-name {
+  .characterName {
     margin-top: 20px;
   }
-  .first-column {
+  .firstColumn {
     margin-top: -65px;
   }
-  .second-column {
+  .secondColumn {
     display: flex;
     justify-content: center;
     align-items: center;

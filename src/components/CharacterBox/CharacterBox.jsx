@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./CharacterBox.css";
+import styles from "./CharacterBox.module.css";
 
 const CharacterBox = () => {
   const { characterId } = useParams();
@@ -21,7 +21,6 @@ const CharacterBox = () => {
 
       const resolvePromisesForEpisodes = await Promise.all(episodeData);
       setEpisodes(resolvePromisesForEpisodes);
-      console.log(resolvePromisesForEpisodes);
     };
 
     fetchCharacter();
@@ -30,9 +29,9 @@ const CharacterBox = () => {
   if (!character) return <div>Loading...</div>;
 
   return (
-    <div className="character-details">
-      <div className="click-main">
-        <div className="first-column">
+    <div className={styles.characterDetails}>
+      <div className={styles.clickMain}>
+        <div className={styles.firstColumn}>
           <img
             className="imageInsideCharacterBox"
             alt="Character"
@@ -40,9 +39,9 @@ const CharacterBox = () => {
           />
         </div>
 
-        <div className="second-column">
-          <div className="character-name">{character.name}</div>
-          <div className="character-info">
+        <div className={styles.secondColumn}>
+          <div className={styles.characterName}>{character.name}</div>
+          <div className={styles.characterInfo}>
             <div className="description-name">
               <strong>Gender: </strong>
               {character.gender}

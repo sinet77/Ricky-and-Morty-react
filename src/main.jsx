@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CharacterBox from "./components/CharacterBox/CharacterBox.jsx";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -13,6 +12,7 @@ const router = createBrowserRouter([
     path: "character/:characterId",
     element: <CharacterBox />,
   },
+  { path: "*", element: <>Nie ma takiej strony. </> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
